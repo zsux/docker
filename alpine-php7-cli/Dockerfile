@@ -4,13 +4,19 @@ FROM alpine:edge
 MAINTAINER Andrey Delphin <masterforweb@hotmail.com>
 
 # Environments
-ENV TIMEZONE Europe/Moscow
+ENV TIMEZONE Asia/Shanghai
 ENV PHP_MEMORY_LIMIT 1024M
 ENV MAX_UPLOAD 128M
 ENV PHP_MAX_FILE_UPLOAD 128
 ENV PHP_MAX_POST 128M
 
-RUN echo 'http://dl-cdn.alpinelinux.org/alpine/edge/testing' >> /etc/apk/repositories && \
+# Default config overrides
+ENV SSHD_OPTION_PERMIT_ROOT_LOGIN yes
+ENV SSHD_OPTION_USE_DNS no
+ENV SSHD_COMMAND_AFTER ""
+
+# RUN echo 'http://dl-cdn.alpinelinux.org/alpine/edge/testing' >> /etc/apk/repositories && \
+RUN echo 'https://mirrors.aliyun.com/alpine/edge/testing' >> /etc/apk/repositories && \
     apk update && \
 	apk upgrade && \
     apk --update add \
@@ -20,6 +26,7 @@ RUN echo 'http://dl-cdn.alpinelinux.org/alpine/edge/testing' >> /etc/apk/reposit
     php7-cli \
     php7-pcntl \
     php7-bcmath \
+    php7-sockets \
     php7-dom \
     php7-ctype \
     php7-curl \
@@ -32,6 +39,7 @@ RUN echo 'http://dl-cdn.alpinelinux.org/alpine/edge/testing' >> /etc/apk/reposit
     php7-mysqlnd \
     php7-mbstring \
     php7-mcrypt \
+    php7-mongodb \
     php7-mysqli \
     php7-opcache \
     php7-openssl \
@@ -51,9 +59,7 @@ RUN echo 'http://dl-cdn.alpinelinux.org/alpine/edge/testing' >> /etc/apk/reposit
     php7-memcached \
     php7-redis \
     php7-amqp && \
-
     apk add --no-cache git  && \
-
     apk add --no-cache --virtual .imagick-build-dependencies autoconf curl g++ gcc imagemagick-dev libtool make tar && \
     apk add --virtual .imagick-runtime-dependencies imagemagick && \
     IMAGICK_TAG="3.4.2" && \
@@ -63,11 +69,8 @@ RUN echo 'http://dl-cdn.alpinelinux.org/alpine/edge/testing' >> /etc/apk/reposit
     ./configure && \
     make && \
     make install && \
-
     echo "extension=imagick.so" > /etc/php7/conf.d/ext-imagick.ini && \
     apk del .imagick-build-dependencies && \
-
-
     # Set environments
     sed -i "s|;*date.timezone =.*|date.timezone = ${TIMEZONE}|i" /etc/php7/php.ini && \
     sed -i "s|;*memory_limit =.*|memory_limit = ${PHP_MEMORY_LIMIT}|i" /etc/php7/php.ini && \
@@ -79,11 +82,20 @@ RUN echo 'http://dl-cdn.alpinelinux.org/alpine/edge/testing' >> /etc/apk/reposit
 	  php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" && \
     php composer-setup.php --install-dir=/usr/bin --filename=composer && \
     php -r "unlink('composer-setup.php');" && \
-
+    # sshd
+    apk --no-cache add openssh && \
+      VOL-save /etc/ssh && \
+      echo "root:root" | chpasswd \      
+      rc-update add sshd && \
+      rc-status && \
+      touch /run/openrc/softlevel && \
+      /etc/init.d/sshd start && \
+      /etc/init.d/sshd stop && \
     # www-data 
     #addgroup -g 1000 -S www-data && \
-	  #adduser -u 1000 -D -S -G www-data www-data && \
-  
+    #adduser -u 1000 -D -S -G www-data www-data && \
     rm -rf /var/cache/apk/*  
+EXPOSE 22
+COPY sshd_config /etc/ssh/sshd_config
 
 ENTRYPOINT ["supervisord", "--nodaemon", "--configuration", "/etc/supervisord.conf"]
