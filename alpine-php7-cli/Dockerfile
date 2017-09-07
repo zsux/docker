@@ -12,8 +12,8 @@ ENV PHP_MAX_POST 128M
 
 # RUN echo 'http://dl-cdn.alpinelinux.org/alpine/edge/testing' >> /etc/apk/repositories && \
 RUN echo 'https://mirrors.aliyun.com/alpine/edge/community' >> /etc/apk/repositories && \
-    echo 'https://mirrors.aliyun.com/alpine/edge/main' >> /etc/apk/repositories \
-    echo 'https://mirrors.aliyun.com/alpine/edge/testing' >> /etc/apk/repositories \
+    echo 'https://mirrors.aliyun.com/alpine/edge/main' >> /etc/apk/repositories && \
+    echo 'https://mirrors.aliyun.com/alpine/edge/testing' >> /etc/apk/repositories && \
     apk update && \
 	apk upgrade && \
     apk --update add \
