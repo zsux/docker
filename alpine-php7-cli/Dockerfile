@@ -75,12 +75,10 @@ RUN echo 'http://dl-cdn.alpinelinux.org/alpine/edge/testing' >> /etc/apk/reposit
     sed -i 's/short_open_tag = Off/short_open_tag = On/g' /etc/php7/php.ini  && \
 	  php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" && \
     php composer-setup.php --install-dir=/usr/bin --filename=composer && \
-    php -r "unlink('composer-setup.php');" && \
+    php -r "unlink('composer-setup.php');"
     # sshd
-    apk --no-cache add openssh && \
+ RUN apk --no-cache add openssh && \
       echo "root:root" | chpasswd \      
-      rc-update add sshd && \
-      rc-status && \
       touch /run/openrc/softlevel && \
       /etc/init.d/sshd start && \
       /etc/init.d/sshd stop && \
