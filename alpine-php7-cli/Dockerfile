@@ -10,11 +10,6 @@ ENV MAX_UPLOAD 128M
 ENV PHP_MAX_FILE_UPLOAD 128
 ENV PHP_MAX_POST 128M
 
-# Default config overrides
-ENV SSHD_OPTION_PERMIT_ROOT_LOGIN yes
-ENV SSHD_OPTION_USE_DNS no
-ENV SSHD_COMMAND_AFTER ""
-
 # RUN echo 'http://dl-cdn.alpinelinux.org/alpine/edge/testing' >> /etc/apk/repositories && \
 RUN echo 'https://mirrors.aliyuncs.com/alpine/edge/testing' >> /etc/apk/repositories && \
     apk update && \
