@@ -16,7 +16,7 @@ ENV SSHD_OPTION_USE_DNS no
 ENV SSHD_COMMAND_AFTER ""
 
 # RUN echo 'http://dl-cdn.alpinelinux.org/alpine/edge/testing' >> /etc/apk/repositories && \
-RUN echo 'https://mirrors.aliyun.com/alpine/edge/testing' >> /etc/apk/repositories && \
+RUN echo 'https://mirrors.aliyuncs.com/alpine/edge/testing' >> /etc/apk/repositories && \
     apk update && \
 	apk upgrade && \
     apk --update add \
