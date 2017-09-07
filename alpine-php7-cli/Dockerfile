@@ -10,8 +10,7 @@ ENV MAX_UPLOAD 128M
 ENV PHP_MAX_FILE_UPLOAD 128
 ENV PHP_MAX_POST 128M
 
-# RUN echo 'http://dl-cdn.alpinelinux.org/alpine/edge/testing' >> /etc/apk/repositories && \
-RUN echo 'https://mirrors.aliyuncs.com/alpine/edge/testing' >> /etc/apk/repositories && \
+RUN echo 'http://dl-cdn.alpinelinux.org/alpine/edge/testing' >> /etc/apk/repositories && \
     apk update && \
 	apk upgrade && \
     apk --update add \
