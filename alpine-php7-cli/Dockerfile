@@ -78,7 +78,6 @@ RUN echo 'http://dl-cdn.alpinelinux.org/alpine/edge/testing' >> /etc/apk/reposit
     php -r "unlink('composer-setup.php');" && \
     # sshd
     apk --no-cache add openssh && \
-      VOL-save /etc/ssh && \
       echo "root:root" | chpasswd \      
       rc-update add sshd && \
       rc-status && \
