@@ -85,8 +85,14 @@ RUN apk --no-cache add openssh && \
 RUN apk --no-cache add curl bash
 RUN /usr/bin/ssh-keygen -A
 RUN ssh-keygen -t rsa -b 4096 -f  /etc/ssh/ssh_host_key
+RUN sed -ie 's/#Port 22/Port 22/g' /etc/ssh/sshd_config
+RUN sed -ri 's/#HostKey \/etc\/ssh\/ssh_host_key/HostKey \/etc\/ssh\/ssh_host_key/g' /etc/ssh/sshd_config
+RUN sed -ir 's/#HostKey \/etc\/ssh\/ssh_host_rsa_key/HostKey \/etc\/ssh\/ssh_host_rsa_key/g' /etc/ssh/sshd_config
+RUN sed -ir 's/#HostKey \/etc\/ssh\/ssh_host_dsa_key/HostKey \/etc\/ssh\/ssh_host_dsa_key/g' /etc/ssh/sshd_config
+RUN sed -ir 's/#HostKey \/etc\/ssh\/ssh_host_ecdsa_key/HostKey \/etc\/ssh\/ssh_host_ecdsa_key/g' /etc/ssh/sshd_config
+RUN sed -ir 's/#HostKey \/etc\/ssh\/ssh_host_ed25519_key/HostKey \/etc\/ssh\/ssh_host_ed25519_key/g' /etc/ssh/sshd_config
+
 RUN rm -rf /var/cache/apk/*  
 EXPOSE 22
-COPY sshd_config /etc/ssh/sshd_config
 
 CMD ["supervisord", "--nodaemon", "--configuration", "/etc/supervisord.conf"]
