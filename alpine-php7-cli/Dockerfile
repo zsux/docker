@@ -87,4 +87,4 @@ RUN rm -rf /var/cache/apk/*
 EXPOSE 22
 COPY sshd_config /etc/ssh/sshd_config
 
-ENTRYPOINT ["supervisord", "--nodaemon", "--configuration", "/etc/supervisord.conf"]
+CMD ["supervisord", "--nodaemon", "--configuration", "/etc/supervisord.conf"]
