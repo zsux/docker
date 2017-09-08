@@ -82,7 +82,7 @@ RUN apk --no-cache add openssh && \
     # www-data 
     #addgroup -g 1000 -S www-data && \
     #adduser -u 1000 -D -S -G www-data www-data && \
-RUN apk --no-cache add curl
+RUN apk --no-cache add curl bash
 RUN rm -rf /var/cache/apk/*  
 EXPOSE 22
 COPY sshd_config /etc/ssh/sshd_config
