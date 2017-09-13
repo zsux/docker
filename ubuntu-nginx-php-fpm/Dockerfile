@@ -38,6 +38,17 @@ RUN apt-get install -y -q language-pack-en-base python-software-properties softw
     && LC_ALL=en_US.UTF-8 add-apt-repository ppa:ondrej/php -y \
     && apt-get update -qq --fix-missing
 
+
+RUN cd /tmp \
+    && wget -N https://github.com/edenhill/librdkafka/archive/master.zip -O librdkafka.zip \
+    && unzip librdkafka.zip \
+    && rm -f librdkafka.zip \
+    && cd librdkafka-master \
+    && ./configure \
+    && make \
+    && rm -rf librdkafka-master
+
+
 RUN apt-get -q -y install php7.0-dev \
         php7.0-fpm php7.0-gd php7.0-xml php7.0-zip php7.0-mysql php7.0-mcrypt php7.0-curl php7.0-curl \
         php7.0-mbstring php7.0-bcmath \
@@ -67,8 +78,12 @@ RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 0C49F3730359A14
 RUN echo "deb [ arch=amd64 ] http://repo.mongodb.org/apt/ubuntu trusty/mongodb-org/3.4 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-3.4.list
 RUN apt-get update
 RUN apt-get install -y telnet redis-tools mysql-client mongodb-org-shell
+
+RUN apt-get install -y python-pip \
+    && pip install -U pip
+
 #clean
-RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+#RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 WORKDIR /code
 EXPOSE 22 80
