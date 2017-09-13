@@ -39,7 +39,7 @@ RUN apt-get install -y -q language-pack-en-base python-software-properties softw
     && apt-get update -qq --fix-missing
 
 RUN apt-get -q -y install php7.0-dev \
-        php7.0-fpm php7.0-gd php7.0-xml php7.0-zip php7.0-mysql php7.0-mcrypt php7.0-curl \
+        php7.0-fpm php7.0-gd php7.0-xml php7.0-zip php7.0-mysql php7.0-mcrypt php7.0-curl php7.0-curl \
         php7.0-mbstring php7.0-bcmath \
     &&  mkdir -p /run/php \
     && sed -i "s/;date.timezone =.*/date.timezone = Asia\/Shanghai/" /etc/php/7.0/cli/php.ini \
@@ -54,8 +54,12 @@ RUN apt-get -q -y install php7.0-dev \
     && pecl install redis \
     && echo "extension=redis.so" > /etc/php/7.0/mods-available/redis.ini \
     && phpenmod redis \
+    && pecl install rdkafka \
+    && echo "extension=rdkafka.so" > /etc/php/7.0/mods-available/rdkafka.ini \
+    && phpenmod rdkafka \
     && pecl install xdebug \
     && phpenmod xdebug
+    
 #install nginx
 RUN apt-get install -y nginx
 #install tools
