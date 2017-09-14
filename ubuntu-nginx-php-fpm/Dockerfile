@@ -81,9 +81,10 @@ RUN cd /tmp \
 RUN apt-get install -y python-pip \
     && pip install -U pip
 RUN apt-get install -y curl
+COPY xdebug.ini /etc/php/7.0/mods-available/xdebug.ini
+RUN phpenmod xdebug
 #clean
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
-
 WORKDIR /root
 EXPOSE 22 80
 CMD ["/usr/bin/supervisord", "-n", "-c", "/etc/supervisor/supervisord.conf"]
