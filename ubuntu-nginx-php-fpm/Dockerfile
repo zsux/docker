@@ -80,9 +80,9 @@ RUN cd /tmp \
 
 RUN apt-get install -y python-pip \
     && pip install -U pip
-
+RUN apt-get install -y curl
 #clean
-#RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 WORKDIR /root
 EXPOSE 22 80
