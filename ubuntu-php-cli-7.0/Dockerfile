@@ -54,6 +54,13 @@ RUN sed -ri 's/^#PasswordAuthentication\s+.*/PasswordAuthentication no/' /etc/ss
 RUN apt-get install -y supervisor
 RUN echo "[supervisord]"    >> /etc/supervisor/supervisord.conf
 RUN echo "nodaemon=true\n"  >> /etc/supervisor/supervisord.conf
+
+RUN echo "[program:cron]"  >> /etc/supervisor/supervisord.conf
+RUN echo "command=/bin/bash -c 'cron -f'"  >> /etc/supervisor/supervisord.conf
+
+RUN echo "[program:sshd]"  >> /etc/supervisor/supervisord.conf
+RUN echo "command=/usr/sbin/sshd -D"  >> /etc/supervisor/supervisord.conf
+
 RUN mkdir -p /var/log/supervisor
 
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
