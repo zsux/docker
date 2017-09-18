@@ -44,7 +44,7 @@ RUN echo "\n[Xdebug]\nzend_extension=xdebug.so\n" >> /etc/php/7.0/cli/php.ini
 RUN phpenmod xdebug
 RUN php -m | grep xdebug
 
-RUN apt-get openssh-server
+RUN apt-get install -y openssh-server
 RUN mkdir -p /var/run/sshd
 RUN sed -ri 's/^PermitRootLogin\s+.*/PermitRootLogin without-password/' /etc/ssh/sshd_config
 RUN sed -ri 's/UsePAM yes/#UsePAM yes/g' /etc/ssh/sshd_config
