@@ -1,0 +1,41 @@
+version: '2.1'
+services:
+    pt_web:
+        restart: always
+        container_name: pt_web
+        image: 'registry.cn-shanghai.aliyuncs.com/pt/ubuntu-web'
+        ports:
+            - "8022:22"
+            - "8080:80"
+        volumes:
+            - /opt/data:/opt/data
+        command: bash -c "curl -s http://47.91.226.210/local/bin/web_init.sh | sh"
+        links:
+          - pt_mysql
+          - pt_mongo
+          - pt_redis
+    pt_mysql:
+        restart: always
+        container_name: pt_mysql
+        image: mysql:5.7
+        ports:
+            - "3306:3306"
+        command: [mysqld, --sql-mode=NO_ENGINE_SUBSTITUTION, --character-set-server=utf8mb4,--innodb_buffer_pool_size=1512m,--innodb_log_buffer_size=100m,--innodb_flush_log_at_trx_commit=2, --collation-server=utf8mb4_unicode_ci]
+        volumes:
+            - /opt/data/docker/mysql/data_3306:/var/lib/mysql
+        environment:
+            MYSQL_ROOT_PASSWORD: root
+    pt_mongo:
+        restart: always
+        container_name: pt_mongo
+        image: mongo:3.4
+        ports:
+            - "27017:27017"
+        volumes:
+            - /opt/data/docker/mongo/data_27017:/data/db
+    pt_redis:
+        restart: always
+        container_name: pt_redis
+        ports:
+            - "6379:6379"
+        image: redis
