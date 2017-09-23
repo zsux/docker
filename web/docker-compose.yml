@@ -3,7 +3,7 @@ services:
     pt_web:
         restart: always
         container_name: pt_web
-        image: 'registry.cn-shanghai.aliyuncs.com/pt/ubuntu-web'
+        image: 'registry.ap-southeast-1.aliyuncs.com/pt/ubuntu-nginx-php-fpm-out'
         ports:
             - "8022:22"
             - "8080:80"
