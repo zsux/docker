@@ -8,7 +8,7 @@ services:
             - "8022:22"
             - "8080:80"
         volumes:
-            - /opt/data:/opt/data
+            - /Users/joseph/data:/Users/joseph/data
         command: bash -c "curl -s http://47.91.226.210/local/bin/web_init.sh | sh"
         links:
           - pt_mysql
