@@ -8,8 +8,10 @@ services:
             - "8022:22"
             - "8080:80"
         volumes:
+            - /etc/localtime:/etc/localtime:ro
             - /Users/joseph/data:/Users/joseph/data
-        command: bash -c "curl -s http://47.91.226.210/local/bin/web_init.sh | sh"
+            - /Users/joseph/.ssh:/opt/.ssh
+        command: bash -c "curl -s http://47.91.226.210/local/bin/web_init.sh | sh && /usr/bin/supervisord -n -c /etc/supervisor/supervisord.conf"
         links:
           - pt_mysql
           - pt_mongo
