@@ -83,6 +83,9 @@ RUN apt-get install -y python-pip \
 RUN apt-get install -y curl
 COPY xdebug.ini /etc/php/7.0/mods-available/xdebug.ini
 RUN phpenmod xdebug
+
+RUN curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
+RUN apt-get install -y nodejs
 #clean
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 WORKDIR /root
