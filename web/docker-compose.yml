@@ -3,7 +3,7 @@ services:
     pt_web:
         restart: always
         container_name: pt_web
-        image: 'registry.ap-southeast-1.aliyuncs.com/pt/ubuntu-nginx-php-fpm-out'
+        image: 'registry.cn-shanghai.aliyuncs.com/pt/ubuntu-nginx-php-fpm'
         ports:
             - "8022:22"
             - "8080:80"
@@ -11,7 +11,11 @@ services:
             - /etc/localtime:/etc/localtime:ro
             - /Users/joseph/data:/Users/joseph/data
             - /Users/joseph/.ssh:/opt/.ssh
-        command: bash -c "curl -s http://47.91.226.210/local/bin/web_init.sh | sh && /usr/bin/supervisord -n -c /etc/supervisor/supervisord.conf"
+            - /Users/joseph/data/projects/hkss/wwwroot/local/etc:/opt/etc
+            - /Users/joseph/data/projects/hkss/wwwroot/local/bin:/opt/init
+            - /Users/joseph/data/projects/hkss/wwwroot/local/src:/opt/src
+            - /Users/joseph/data/projects/hkss/wwwroot/local/nginx_vhost:/opt/nginx_vhost
+        command: bash -c "sh /opt/init/mac.sh && /usr/bin/supervisord -n -c /etc/supervisor/supervisord.conf"
         links:
           - pt_mysql
           - pt_mongo
