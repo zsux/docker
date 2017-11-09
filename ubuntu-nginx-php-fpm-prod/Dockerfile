@@ -10,7 +10,7 @@ RUN apt-get clean
 RUN apt-get update  --fix-missing
 RUN (apt-get update && apt-get upgrade -y -q && apt-get dist-upgrade -y -q && apt-get -y -q autoclean && apt-get -y -q autoremove)
 RUN apt-get install -y build-essential
-RUN apt-get install -y supervisor,unzip,wget,curl,vim,telnet
+RUN apt-get install -y supervisor unzip wget curl vim telnet
 
 RUN echo "Asia/Shanghai" > /etc/timezone \
     && dpkg-reconfigure tzdata
