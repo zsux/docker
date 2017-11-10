@@ -57,12 +57,12 @@ RUN apt-get install -y git
 RUN curl -sS https://getcomposer.org/installer | sudo php -- --install-dir=/bin --filename=composer && composer --version
 RUN mkdir -p /opt/composer && cd /opt/composer && composer config -g repo.packagist composer https://packagist.phpcomposer.com \
     && composer require overtrue/phplint --prefer-source --no-interaction \
-    && ln -s /opt/vendor/bin/phplint /bin/phplint 
+    && ln -s /opt/composer/vendor/bin/phplint /bin/phplint 
     
 RUN mkdir -p /opt/composer && cd /opt/composer && composer require "phpunit/phpunit:~5.5.0" --prefer-source --no-interaction \
         && composer require "phpunit/php-invoker" --prefer-source --no-interaction \
-        && ln -s /opt/vendor/bin/phpunit /bin/phpunit \
-        && sed -i 's/nn and/nn, Julien Breux (Docker) and/g' /opt/vendor/phpunit/phpunit/src/Runner/Version.php 
+        && ln -s /opt/composer/vendor/bin/phpunit /bin/phpunit \
+        && sed -i 's/nn and/nn, Julien Breux (Docker) and/g' /opt/composer/vendor/phpunit/phpunit/src/Runner/Version.php 
 RUN phpenmod xdebug \ 
     && php -m | grep -i xdebug
 #clean
