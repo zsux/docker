@@ -54,7 +54,7 @@ RUN cd /tmp \
     
 #composer
 WORKDIR /opt
-RUN curl http://47.91.226.210/down/composer -o /bin/composer && chmod +x /user/bin/composer \
+RUN curl http://47.91.226.210/down/composer -o /bin/composer && chmod +x /user/composer \
     && phpenmod xdebug \ 
     && php -m | grep -i xdebug
 #clean
