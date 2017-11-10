@@ -56,9 +56,9 @@ RUN cd /tmp \
 RUN apt-get install -y git
 RUN curl -sS https://getcomposer.org/installer | sudo php -- --install-dir=/bin --filename=composer && composer --version
 RUN mkdir -p /opt/composer && cd /opt/composer && composer config -g repo.packagist composer https://packagist.phpcomposer.com \
-    && composer require overtrue/phplint -vvv
-    php ./vendor/bin/phplint ./ --exclude=vendor
-
+    && composer require overtrue/phplint --prefer-source --no-interaction \
+    && ln -s /opt/vendor/bin/phplint /bin/phplint 
+    
 RUN mkdir -p /opt/composer && cd /opt/composer && composer require "phpunit/phpunit:~5.5.0" --prefer-source --no-interaction \
         && composer require "phpunit/php-invoker" --prefer-source --no-interaction \
         && ln -s /opt/vendor/bin/phpunit /bin/phpunit \
