@@ -63,6 +63,7 @@ RUN mkdir -p /opt/composer && cd /opt/composer && composer require "phpunit/phpu
         && composer require "phpunit/php-invoker" --prefer-source --no-interaction \
         && ln -s /opt/composer/vendor/bin/phpunit /bin/phpunit \
         && sed -i 's/nn and/nn, Julien Breux (Docker) and/g' /opt/composer/vendor/phpunit/phpunit/src/Runner/Version.php 
+
 #clean
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 WORKDIR /root
