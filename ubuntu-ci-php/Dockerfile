@@ -53,8 +53,16 @@ RUN cd /tmp \
     && rm -rf librdkafka-master
     
 #composer
-RUN curl -sS https://getcomposer.org/installer | sudo php -- --install-dir=/usr/local/bin --filename=composer && composer --version
-
+WORKDIR /opt
+RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
+    && php composer-setup.php --install-dir=/usr/bin --filename=composer \
+    && php -r "unlink('composer-setup.php');" \
+    && composer require "phpunit/phpunit:~5.5.0" --prefer-source --no-interaction \
+    && composer require "phpunit/php-invoker" --prefer-source --no-interaction \
+    && ln -s /opt/vendor/bin/phpunit /usr/local/bin/phpunit \
+    && sed -i 's/nn and/nn, Julien Breux (Docker) and/g' /opt/vendor/phpunit/phpunit/src/Runner/Version.php \
+    && phpenmod xdebug \ 
+    && php -m | grep -i xdebug
 #clean
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 WORKDIR /root
