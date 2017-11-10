@@ -53,6 +53,7 @@ RUN cd /tmp \
     && rm -rf librdkafka-master
     
 #composer
+RUN apt-get install -y git
 RUN curl -sS https://getcomposer.org/installer | sudo php -- --install-dir=/bin --filename=composer && composer --version
 RUN composer require "phpunit/phpunit:~5.5.0" --prefer-source --no-interaction \
         && composer require "phpunit/php-invoker" --prefer-source --no-interaction \
