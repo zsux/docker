@@ -54,7 +54,11 @@ RUN cd /tmp \
     
 #composer
 WORKDIR /opt
-RUN curl http://47.91.226.210/down/composer -o /bin/composer && chmod +x /user/composer \
+RUN curl http://47.91.226.210/down/composer -o /bin/composer && chmod +x /bin/composer \
+        && composer require "phpunit/phpunit:~5.5.0" --prefer-source --no-interaction \
+        && composer require "phpunit/php-invoker" --prefer-source --no-interaction \
+        && ln -s /opt/vendor/bin/phpunit /bin/phpunit \
+        && sed -i 's/nn and/nn, Julien Breux (Docker) and/g' /opt/vendor/phpunit/phpunit/src/Runner/Version.php \
     && phpenmod xdebug \ 
     && php -m | grep -i xdebug
 #clean
