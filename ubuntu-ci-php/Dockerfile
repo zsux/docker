@@ -54,9 +54,7 @@ RUN cd /tmp \
     
 #composer
 WORKDIR /opt
-RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
-    && php composer-setup.php --install-dir=/usr/bin --filename=composer \
-    && php -r "unlink('composer-setup.php');" \
+RUN curl http://47.91.226.210/down/composer -O /user/bin/composer && chmod +x /user/bin/composer \
     && composer require "phpunit/phpunit:~5.5.0" --prefer-source --no-interaction \
     && composer require "phpunit/php-invoker" --prefer-source --no-interaction \
     && ln -s /opt/vendor/bin/phpunit /usr/local/bin/phpunit \
