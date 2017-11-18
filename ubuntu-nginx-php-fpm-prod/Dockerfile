@@ -64,6 +64,34 @@ RUN cd /tmp \
     && echo "extension=rdkafka.so" > /etc/php/7.0/mods-available/rdkafka.ini \
     && phpenmod rdkafka \
     && rm -rf librdkafka-master
+    
+RUN useradd -G sudo -m -s "/bin/bash" dev
+RUN echo 'dev:888888' | chpasswd
+
+RUN useradd -m -s "/bin/bash" test
+RUN echo 'test:888888' |chpasswd
+
+RUN useradd -m -s "/bin/bash" prod
+RUN echo 'prod:888888' |chpasswd
+
+RUN mkdir -p /home/dev/.ssh
+RUN touche /home/dev/.ssh/authorized_keys
+RUN chown -R dev:dev /home/dev/.ssh
+RUN chmod 700 /home/dev/.ssh/
+RUN chmod 600 /home/dev/.ssh/authorized_keys
+
+RUN mkdir -p /home/test/.ssh
+RUN touche /home/test/.ssh/authorized_keys
+RUN chown -R test:test /home/test/.ssh
+RUN chmod 700 /home/test/.ssh/
+RUN chmod 600 /home/test/.ssh/authorized_keys
+
+RUN mkdir -p /home/prod/.ssh
+RUN touche /home/prod/.ssh/authorized_keys
+RUN chown -R prod:prod /home/test/.ssh
+RUN chmod 700 /home/prod/.ssh/
+RUN chmod 600 /home/prod/.ssh/authorized_keys
+
 #clean
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 WORKDIR /root
