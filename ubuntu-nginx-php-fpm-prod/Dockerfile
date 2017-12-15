@@ -1,25 +1,19 @@
 FROM ubuntu:14.04
-MAINTAINER Joseph zhou "joseph.zhou@gmail.com"
+MAINTAINER Dhole "dhole.me@gmail.com"
 RUN dpkg-divert --local --rename --add /sbin/initctl
 RUN ln -sf /bin/true /sbin/initctl
 # update source
 RUN sed -i 's/archive.ubuntu.com/mirrors.aliyun.com/g' /etc/apt/sources.list
-#RUN sed -i 's/archive.ubuntu.com/mirrors.aliyuncs.com/g' /etc/apt/sources.list
 
 ENV DEBIAN_FRONTEND noninteractive
 RUN apt-get clean
 RUN apt-get update  --fix-missing
 RUN (apt-get update && apt-get upgrade -y -q && apt-get dist-upgrade -y -q && apt-get -y -q autoclean && apt-get -y -q autoremove)
 RUN apt-get install -y build-essential
-RUN apt-get install -y supervisor
-RUN apt-get install -y unzip
-RUN apt-get install -y wget
-RUN apt-get install -y git
-RUN apt-get install -y vim telnet
+RUN apt-get install -y supervisor unzip wget curl vim telnet rsync
 
 RUN echo "Asia/Shanghai" > /etc/timezone \
     && dpkg-reconfigure tzdata
-
 #install sshd
 RUN apt-get install -y openssh-server openssh-client
 RUN sed -ri 's/^PermitRootLogin\s+.*/PermitRootLogin without-password/' /etc/ssh/sshd_config
@@ -54,17 +48,10 @@ RUN apt-get -q -y install php7.0-dev \
     && pecl install redis \
     && echo "extension=redis.so" > /etc/php/7.0/mods-available/redis.ini \
     && phpenmod redis \
-    && pecl install xdebug \
-    && phpenmod xdebug
+    && pecl install xdebug
     
 #install nginx
 RUN apt-get install -y nginx
-#install tools
-RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 0C49F3730359A14518585931BC711F9BA15703C6
-RUN echo "deb [ arch=amd64 ] http://repo.mongodb.org/apt/ubuntu trusty/mongodb-org/3.4 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-3.4.list
-RUN apt-get update
-RUN apt-get install -y telnet redis-tools mysql-client mongodb-org-shell
-
 RUN cd /tmp \
     && wget -N https://github.com/edenhill/librdkafka/archive/master.zip -O librdkafka.zip \
     && unzip librdkafka.zip \
@@ -77,26 +64,6 @@ RUN cd /tmp \
     && echo "extension=rdkafka.so" > /etc/php/7.0/mods-available/rdkafka.ini \
     && phpenmod rdkafka \
     && rm -rf librdkafka-master
-    
-RUN curl -sS https://getcomposer.org/installer | sudo php -- --install-dir=/bin --filename=composer && composer --version
-RUN mkdir -p /opt/composer && cd /opt/composer && composer config -g repo.packagist composer https://packagist.phpcomposer.com \
-    && composer require overtrue/phplint --prefer-source --no-interaction \
-    && ln -s /opt/composer/vendor/bin/phplint /bin/phplint 
-
-RUN mkdir -p /opt/composer && cd /opt/composer && composer require phpunit/phpunit ^6.4 --prefer-source --no-interaction \
-        && composer require "phpunit/php-invoker" --prefer-source --no-interaction \
-        && ln -s /opt/composer/vendor/bin/phpunit /bin/phpunit \
-        && sed -i 's/nn and/nn, Julien Breux (Docker) and/g' /opt/composer/vendor/phpunit/phpunit/src/Runner/Version.php 
-
-RUN apt-get install -y python-pip \
-    && pip install -U pip
-RUN apt-get install -y curl
-COPY xdebug.ini /etc/php/7.0/mods-available/xdebug.ini
-RUN phpenmod xdebug
-
-RUN curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
-RUN apt-get install -y nodejs
-
     
 RUN useradd -G sudo -m -s "/bin/bash" dev
 RUN echo 'dev:888888' | chpasswd
@@ -124,7 +91,6 @@ RUN touche /home/prod/.ssh/authorized_keys
 RUN chown -R prod:prod /home/test/.ssh
 RUN chmod 700 /home/prod/.ssh/
 RUN chmod 600 /home/prod/.ssh/authorized_keys
-
 
 #clean
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
