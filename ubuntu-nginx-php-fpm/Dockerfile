@@ -29,6 +29,21 @@ RUN mkdir -p /var/run/sshd
 #install supervisor
 RUN echo "[supervisord]"    >> /etc/supervisor/supervisord.conf
 RUN echo "nodaemon=true\n"  >> /etc/supervisor/supervisord.conf
+
+RUN mkdir -p /var/supervisor/
+
+RUN echo "[program:sshd]"    >> /var/supervisor/sshd.conf \
+    && echo "command=/usr/sbin/sshd -D"  >> /var/supervisor/sshd.conf
+
+RUN echo "[program:cron]"    >> /var/supervisor/cron.conf \
+    && echo 'command=/bin/bash -c "cron -f"'  >> /var/supervisor/cron.conf
+
+RUN echo "[program:nginx]"    >> /var/supervisor/nginx.conf \
+    && echo 'command=/usr/sbin/nginx -g "daemon off;"'  >> /var/supervisor/nginx.conf
+
+RUN echo "[program:php-fpm]"    >> /var/supervisor/php-fpm.conf \
+    && echo 'command=/usr/sbin/php-fpm7.0 -F'  >> /var/supervisor/php-fpm.conf
+
 RUN mkdir -p /var/log/supervisor
 
 #install php
@@ -124,7 +139,6 @@ RUN touche /home/prod/.ssh/authorized_keys
 RUN chown -R prod:prod /home/test/.ssh
 RUN chmod 700 /home/prod/.ssh/
 RUN chmod 600 /home/prod/.ssh/authorized_keys
-
 
 #clean
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
