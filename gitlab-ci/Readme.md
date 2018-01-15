@@ -5,9 +5,9 @@
 
 编译
 
-    docker build -t pt/ubuntu-nginx-php-fpm:latest .
+    docker build -t pt/gitlab-ci:latest .
 
 执行
     
-    docker run -it pt/ubuntu-nginx-php-fpm bash
+    docker run -it pt/gitlab-ci bash
    
