@@ -59,8 +59,8 @@ RUN cd /opt/composer && composer require phpunit/phpunit ^6.4 --prefer-source --
 #VOLUME ["/var/lib/mysql"]
 #EXPOSE 3306
 
-RUN echo "[program:redis]"    >> /var/supervisor/redis.conf \
-    && echo "command=/usr/bin/redis-server"  >> /var/supervisor/redis.conf
+#RUN echo "[program:redis]"    >> /var/supervisor/redis.conf \
+#    && echo "command=/usr/bin/redis-server"  >> /var/supervisor/redis.conf
 
 #RUN echo "[program:mysql]"    >> /var/supervisor/mysql.conf \
 #    && echo "command=/usr/bin/pidproxy /var/run/mysqld/mysqld.pid /usr/bin/mysqld_safe"  >> /var/supervisor/mysql.conf

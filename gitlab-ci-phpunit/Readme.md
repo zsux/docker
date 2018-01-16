@@ -13,6 +13,3 @@ Todo:
     - add netstat cmd
     - timezone
     - add mongo-client
-    
-    command=/usr/bin/pidproxy /var/run/mysqld/mysqld.pid /usr/sbin/mysqld
-    autorestart=true
