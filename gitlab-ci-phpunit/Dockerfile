@@ -1,12 +1,21 @@
 FROM ubuntu:16.04
 MAINTAINER Joseph zhou "joseph.zhou@gmail.com"
 ENV DEBIAN_FRONTEND noninteractive
+ENV INITRD No
 
 RUN apt-get update -y
 RUN apt-get install -y build-essential tzdata locales
-RUN date
 RUN echo "Asia/Shanghai" > /etc/timezone \
     && dpkg-reconfigure tzdata
+
+RUN apt-get install -y redis-server
+RUN apt-get install -y mysql-server
+RUN apt-get install -y supervisor
+
+RUN apt-get install -y git curl unzip wget vim telnet rsync redis-tools mysql-client
+
+RUN apt-get install -y python-pip \
+    && pip install -U pip
 
 RUN apt-get install -y \
       php \
@@ -31,10 +40,6 @@ RUN apt-get install -y \
       php-xdebug \
       composer
 
-RUN apt-get install -y git curl unzip wget vim telnet rsync
-
-RUN apt-get install -y python-pip \
-    && pip install -U pip
 RUN mkdir /opt/composer
 
 RUN cd /opt/composer \
@@ -47,7 +52,19 @@ RUN cd /opt/composer && composer require phpunit/phpunit ^6.4 --prefer-source --
     && ln -s /opt/composer/vendor/bin/phpunit /bin/phpunit \
     && sed -i 's/nn and/nn, Julien Breux (Docker) and/g' /opt/composer/vendor/phpunit/phpunit/src/Runner/Version.php
 
-RUN apt-get install -y redis-tools mysql-client
-RUN apt-get install -y redis-server
-RUN apt-get install -y mysql-server
+#RUN sed -i -e"s/^bind-address\s*=\s*127.0.0.1/bind-address = 0.0.0.0/" /etc/mysql/my.cnf
+#ADD set-mysql-password.sh /tmp/set-mysql-password.sh
+#RUN /bin/sh /tmp/set-mysql-password.sh
 
+#VOLUME ["/var/lib/mysql"]
+#EXPOSE 3306
+
+RUN echo "[program:redis]"    >> /var/supervisor/redis.conf \
+    && echo "command=/usr/bin/redis-server"  >> /var/supervisor/redis.conf
+
+#RUN echo "[program:mysql]"    >> /var/supervisor/mysql.conf \
+#    && echo "command=/usr/bin/pidproxy /var/run/mysqld/mysqld.pid /usr/bin/mysqld_safe"  >> /var/supervisor/mysql.conf
+
+
+RUN apt-get clean
+RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
