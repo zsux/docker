@@ -7,7 +7,9 @@
 执行
     
     docker run -it pt/gitlab-ci-phpunit bash
+    docker run -it dhole/gitlab-ci-phpunit:0.2 bash
    
+    
 Todo:
 
     - add netstat cmd

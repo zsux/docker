@@ -10,7 +10,6 @@ RUN apt-get install -y build-essential tzdata locales
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 RUN dpkg-reconfigure --frontend noninteractive tzdata
 
-RUN apt-get install -y redis-server
 RUN apt-get install -y git curl unzip wget vim telnet rsync redis-tools mysql-client
 
 RUN apt-get install -y python-pip \
