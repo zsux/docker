@@ -2,14 +2,17 @@ FROM ubuntu:16.04
 MAINTAINER Joseph zhou "joseph.zhou@gmail.com"
 ENV DEBIAN_FRONTEND noninteractive
 ENV INITRD No
+ENV TZ=Asia/Shanghai
+
 
 RUN apt-get update -y
 RUN apt-get install -y build-essential tzdata locales
-RUN echo "Asia/Shanghai" > /etc/timezone \
-    && dpkg-reconfigure tzdata
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+RUN dpkg-reconfigure --frontend noninteractive tzdata
 
-RUN apt-get install -y supervisor
+RUN apt-get install -y redis-server
 RUN apt-get install -y git curl unzip wget vim telnet rsync redis-tools mysql-client
+
 RUN apt-get install -y python-pip \
     && pip install -U pip
 
