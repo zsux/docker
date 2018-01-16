@@ -11,5 +11,4 @@
 Todo:
 
     - add netstat cmd
-    - timezone
     - add mongo-client
