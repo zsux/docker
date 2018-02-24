@@ -4,7 +4,6 @@ ENV DEBIAN_FRONTEND noninteractive
 ENV INITRD No
 ENV TZ=Asia/Shanghai
 
-
 RUN apt-get update -y
 RUN apt-get install -y build-essential tzdata locales
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone

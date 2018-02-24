@@ -17,3 +17,7 @@ RUN pecl install mongodb \
 #   && pecl install redis \
     && pecl install xdebug \
     && docker-php-ext-enable mongodb
+
+RUN sed -i '5d' /etc/nginx/sites-enabled/default.conf \
+    && sed -i '5i root /var/www/html/api/web;' /etc/nginx/sites-enabled/default.conf \
+    && sed -i '24i if (!-e $request_filename){ rewrite ^/(.*) /index.php?r=$1 last; } ' /etc/nginx/sites-enabled/default.conf
