@@ -1,5 +1,5 @@
 FROM richarvey/nginx-php-fpm:latest
-MAINTAINER Kane "cs17899219@gmail.com"
+MAINTAINER Barry "dhole.me@gmail.com"
 
 RUN docker-php-ext-configure bcmath \
     && docker-php-ext-configure pcntl \

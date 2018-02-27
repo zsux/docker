@@ -7,7 +7,6 @@
     
     docker run -it pt/nginx-php-fpm-yii-api bash
    
-
 pull
 
-    docker pull dhole/yii-api 
+    docker pull dhole/yii-api
