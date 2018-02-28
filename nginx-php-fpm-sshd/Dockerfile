@@ -37,8 +37,26 @@ RUN ssh-keygen -t rsa -b 4096 -f  /etc/ssh/ssh_host_key
 RUN mkdir -p /etc/supervisor/conf.d
 
 ADD conf/supervisord.conf /etc/supervisord.conf
-ADD conf/supervisord_sshd.conf /supervisord_sshd.conf
-ADD conf/supervisord_nginx.conf /supervisord_nginx.conf
-ADD conf/supervisord_fpm.conf /supervisord_fpm.conf
+ADD conf/supervisor_sshd.conf /root/supervisor_sshd.conf
+ADD conf/supervisor_nginx.conf /root/supervisor_nginx.conf
+ADD conf/supervisor_fpm.conf /root/supervisor_fpm.conf
+ADD conf/supervisor_crond.conf /root/supervisor_crond.conf
 
+RUN echo 'cp /root/supervisor_sshd.conf /etc/supervisor/conf.d' > /bin/en_sshd
+RUN echo 'cp /root/supervisor_nginx.conf /etc/supervisor/conf.d' > /bin/en_nginx
+RUN echo 'cp /root/supervisor_fpm.conf /etc/supervisor/conf.d' > /bin/en_fpm
+RUN echo 'cp /root/supervisor_crond.conf /etc/supervisor/conf.d' > /bin/en_crond
+
+RUN chmod +x /bin/en_sshd
+RUN chmod +x /bin/en_nginx
+RUN chmod +x /bin/en_fpm
+RUN chmod +x /bin/en_crond
+
+ADD conf/check_crontab.sh /var/run/check_crontab.sh
+RUN chmod +x /var/run/check_crontab.sh
+
+RUN mkdir -p /opt/etc/cron/
+ADD conf/crontab.cron /opt/etc/cron/crontab.cron
+RUN crontab /opt/etc/cron/crontab.cron
+RUN rm -rf /var/cache/apk/*
 EXPOSE 22

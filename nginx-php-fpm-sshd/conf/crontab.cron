@@ -1,0 +1,1 @@
+* * * * * sh /var/run/check_crontab.sh >> /var/log/check_crontab.log
