@@ -1,0 +1,14 @@
+{
+  "name": "ethereum",
+  "version": "1.0.0",
+  "description": "- https://gist.github.com/fishbullet/4c36ecd6d6932adae24c68c8750894e6 - https://github.com/ethereum/wiki/wiki/JavaScript-API",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "web3": "0.19.0"
+  }
+}
