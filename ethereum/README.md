@@ -9,21 +9,18 @@
 
 
     docker build -t ether_node .
-    docker run --rm -it -p 8545:8545 -v ~/.ethereum:/eth_user/.ethereum ether_node
+    docker run --rm -it -p 8545:8545 -v /data/ethereum/test:/home/eth_user/.ethereum ether_node
 
-    docker run -d -p 8545:8545 -v ~/.ethereum:/eth_user/.ethereum ether_node
+    docker run -d -p 8545:8545 -v /data/ethereum/test:/eth_user/.ethereum ether_node
     geth --rpc --rpcport 8545 --rpcaddr 0.0.0.0 --rpccorsdomain "*" --rpcapi db,eth,net,web3,personal --testnet --fast --cache=512 --verbosity=2 console
     
    
-   
     docker build -t ether_prod .
-    docker run --rm -it -p 9545:8545 -v ~/.ethereum:/eth_user/.ethereum ether_prod
-    docker run -d -p 9545:8545 -v ~/.ethereum:/eth_user/.ethereum ether_prod
+    docker run --rm -it -p 9545:8545 -v /data/ethereum/prod:/eth_user/.ethereum ether_prod
+    docker run -d -p 9545:8545 -v /data/ethereum/prod:/eth_user/.ethereum ether_prod
     geth --rpc --rpcport 8545 --rpcaddr 0.0.0.0 --rpccorsdomain "*" --rpcapi db,eth,net,web3,personal --testnet --fast --cache=512 --verbosity=2 console
    
   
-  
-      
     eth.syncing 
     web3.net.peerCount
     

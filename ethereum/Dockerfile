@@ -14,7 +14,6 @@ RUN adduser --disabled-login --gecos "" eth_user
 USER eth_user
 WORKDIR /home/eth_user
 
-#ENTRYPOINT bash
 
+#--testnet
 CMD ["geth", "--rpc", "-rpcport","8545", "--rpcaddr","0.0.0.0","--rpccorsdomain","*","--fast","--cache","512"]
-CMD ["geth", "--rpc", "-rpcport","8545", "--rpcaddr","0.0.0.0","--rpccorsdomain","*","--testnet","--fast","--cache","512"]
