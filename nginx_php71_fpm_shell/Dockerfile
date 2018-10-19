@@ -1,4 +1,4 @@
-FROM registry.cn-shanghai.aliyuncs.com/dhole/repo:nginx-php71-fpm-0.1
+FROM registry.cn-shanghai.aliyuncs.com/dhole/repo:nginx-php71-fpm-js-0.1
 MAINTAINER Barry <dhole.me@gmail.com>
 USER root
 
