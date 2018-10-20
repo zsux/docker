@@ -40,9 +40,9 @@ def init_user():
             t = key.split("_")
             username = t[0]
             if username == "root":
-                os_system("sudo mkdir -p /root/.ssh")
                 os_system("sudo echo {0} >> /root/.ssh/authorized_keys".format(os.environ[env_key]))
-                os_system("sudo chmod 600 /root/.ssh/authorized_keys")
+            elif username == "www":
+                os_system("sudo echo {0} >> /home/www/.ssh/authorized_keys".format(os.environ[env_key]))
             else:
                 os_system("sudo useradd -G sudo -m -s '/bin/bash' {}".format(username))
                 os_system("sudo echo '{0}:{0}kd123456' | chpasswd".format(username))
