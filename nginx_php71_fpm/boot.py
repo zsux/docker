@@ -71,7 +71,7 @@ for item in boot.split(","):
         os_system("sudo cp /etc/supervisor/conf_d/{0}.conf /etc/supervisor/conf.d/{0}.conf".format(item))
 
 if len(vh) > 0 and os.getenv("NGINX_VHOSTS",None) is not None:
-    os_system("echo $NGINX_VHOSTS | sudo base64 --decode > /etc/nginx/nginx.conf")
+    os_system("chmod 777 /etc/nginx/nginx.conf && echo $NGINX_VHOSTS | base64 --decode > /etc/nginx/nginx.conf")
 
 if start == '1':
     print("starting")
