@@ -9,8 +9,10 @@ parser.add_argument('--boot', help='boot', default="")
 parser.add_argument('--auth', help='basic auth', default="")
 parser.add_argument('--pre_init', help='pre init', default="")
 parser.add_argument('--after_init', help='after init', default="")
+parser.add_argument('--vh', help='vhost', default="")
 parser.add_argument('--init', help='init', default="")
-parser.add_argument('--wwwroot', help='www root dir', default="")
+
+parser.add_argument('--web', help='www root dir', default="")
 
 args = parser.parse_args()
 start = args.start
@@ -19,7 +21,9 @@ auth = args.auth
 pre_init = args.pre_init
 after_init = args.after_init
 init = args.init
-wwwroot = args.wwwroot
+vh = args.vh
+web = args.web
+
 
 print("booting...".format(args))
 
@@ -45,8 +49,8 @@ def init_user():
                 os_system("sudo chmod 600 /home/{0}/.ssh/authorized_keys".format(username))
                 os_system("sudo chown -R {0}:{0} /home/{0}/.ssh".format(username))
 
-if len(wwwroot) > 0:
-    cmd = "sudo sed -i 's/root \/code/root {}/g' /etc/nginx/sites-enabled/default.conf".format(wwwroot.replace("/",'\/'));
+if len(web) > 0:
+    cmd = "sudo sed -i 's/root \/code/root {}/g' /etc/nginx/sites-enabled/default.conf".format(web.replace("/",'\/'));
     os_system(cmd)
 
 if len(pre_init) > 0:
@@ -65,6 +69,9 @@ for item in boot.split(","):
         init_user()
     else:
         os_system("sudo cp /etc/supervisor/conf_d/{0}.conf /etc/supervisor/conf.d/{0}.conf".format(item))
+
+if len(vh) > 0 and os.getenv("NGINX_VHOSTS",None) is not None:
+    os_system("echo $NGINX_VHOSTS | sudo base64 --decode > /etc/nginx/nginx.conf")
 
 if start == '1':
     print("starting")
