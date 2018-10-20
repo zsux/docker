@@ -19,5 +19,6 @@ chown -R www:www /code/
 
 rm -f /usr/bin/python
 ln -s /usr/bin/python3 /usr/bin/python
+sed -i "s/python/python2/g" /usr/bin/supervisord
 
 #echo "/etc/motd" >> /etc/bash.bashrc
