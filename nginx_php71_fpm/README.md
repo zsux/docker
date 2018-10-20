@@ -5,15 +5,17 @@
 
 # install 
 
-- python2.7
+- python3
 - php7
 - nginx
 
 ### Build
     
-    docker build -t pt_nginx_php_fpm_prod_1:latest .
+    docker build -t pt_nginx_php_fpm_prod_1:latest . && docker images | grep pt_nginx_php_fpm_prod_1
+    docker build -t pt_nginx_php_fpm_prod_2:latest . && docker images | grep pt_nginx_php_fpm_prod_2
     
     docker run -it pt_nginx_php_fpm_prod_1:latest bash
+    docker run -it pt_nginx_php_fpm_prod_2:latest bash
     
     docker run pt_nginx_php_fpm_prod_1:latest \
         bash -c "sudo boot.py --wwwroot=/code/web --pre_init='ls /opt' --boot=nginx,php-fpm,sshd,crond --start=1"

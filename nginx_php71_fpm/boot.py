@@ -21,10 +21,10 @@ after_init = args.after_init
 init = args.init
 wwwroot = args.wwwroot
 
-print "booting...",args
+print("booting...".format(args))
 
 def os_system(cmd):
-    print "> exec: ",cmd
+    print( "> exec: ".format(cmd))
     os.system(cmd)
 
 def init_user():
@@ -47,19 +47,15 @@ def init_user():
 
 if len(wwwroot) > 0:
     cmd = "sudo sed -i 's/root \/code/root {}/g' /etc/nginx/sites-enabled/default.conf".format(wwwroot.replace("/",'\/'));
-    print cmd
     os_system(cmd)
 
 if len(pre_init) > 0:
-    print pre_init
     os_system(pre_init)
 
 if len(init) > 0:
-    print init
     os_system(init)
 
 if len(after_init) > 0:
-    print after_init
     os_system(after_init)
 
 for item in boot.split(","):
@@ -70,12 +66,6 @@ for item in boot.split(","):
     else:
         os_system("sudo cp /etc/supervisor/conf_d/{0}.conf /etc/supervisor/conf.d/{0}.conf".format(item))
 
-if len(auth) > 0:
-    if os.path.exists("/opt/init_webshell") == False:
-        print "init_webshell"
-        os_system("suod touch /opt/init_webshell")
-        os_system("sudo sh /opt/scripts/bin/webshell.sh {0} {1}".format(auth.split(":")[0],auth.split(":")[1]))
-
 if start == '1':
-    print "starting"
+    print("starting")
     os_system("sudo /usr/bin/supervisord -n -c /etc/supervisor/supervisord.conf")
