@@ -38,7 +38,7 @@ printf "* PHP version: %s\n" $version_php
 printf "\n"
 [ -f /etc/motd.head ] && cat /etc/motd.head || true
 printf "\n"
-printf "Welcome on PHPDocker %s container Open Source (MIT).\n" "$VERSION"
+printf "Welcome on 鹰击 Eagle %s container Open Source (MIT).\n" "$VERSION"
 printf "\n"
 printf "System information as of: %s\n" "$date"
 printf "\n"
@@ -46,17 +46,8 @@ printf "System load:\t%s\t\tMemory usage:\t%s %s\n" $load $memory_usage
 printf "Usage on /:\t%s\t\tSwap usage:\t%s\n" $root_usage $swap_usage
 printf "Processes:\t%s\t\tContainer ID:\t%s\n" $processes $container_id
 printf "\n"
-printf "Docker engine IP: %s\n" $docker_engine_ip
-printf "\n"
-printf "\n"
 printf "Official repository: ${bold}%s${normal}\n" "$IMAGE_REPOSITORY_URL"
 printf "Maintainers: %s\n" "$MAINTAINER"
 printf "\n"
-printf "\n"
-printf "\n"
 printf "| ${bold}x-debug${normal} is disabled in CLI mode.\n"
-printf "| However, you can use the ${bold}php-xdebug${normal} command if you want to use it.\n"
 printf "\n"
-printf "\n"
-
-[ -f /etc/motd.tail ] && cat /etc/motd.tail || true
