@@ -20,5 +20,6 @@ chown -R www:www /code/
 rm -f /usr/bin/python
 ln -s /usr/bin/python3 /usr/bin/python
 sed -i "s/python/python2/g" /usr/bin/supervisord
+sed -i "s/python/python2/g" /usr/bin/supervisorctl
 
-#echo "/etc/motd" >> /etc/bash.bashrc
+echo "alias ll='ls -al'" >> /etc/bash.bashrc
