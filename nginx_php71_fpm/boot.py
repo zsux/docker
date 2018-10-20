@@ -76,7 +76,7 @@ if len(vh) > 0 and os.getenv(vh,None) is not None:
     os_system("sudo chmod 777 /etc/nginx/nginx.conf && echo $NGINX_VHOSTS | base64 --decode > /etc/nginx/nginx.conf".format(vh))
 
 if len(au) > 0 and os.getenv(au,None) is not None:
-    os_system("echo ${} > /etc/nginx/.htpasswd".format(au))
+    os_system("sudo echo ${} > /etc/nginx/.htpasswd".format(au))
 
 if start == '1':
     print("starting")
