@@ -16,7 +16,9 @@ RUN chmod 600 /root/.ssh/authorized_keys \
 COPY image/scripts/bin /opt/scripts
 
 RUN apt-get -y update \
-    && apt-get install -y openssh-server --no-install-recommends
+    && apt-get install -y openssh-server --no-install-recommends \
+    && echo PasswordAuthentication no >> /etc/ssh/sshd_config \
+    && echo PermitRootLogin no >> /etc/ssh/sshd_config
 
 RUN apt-get clean \
     && rm -rf /var/lib/apt/lists/* /var/tmp/* /tmp/*
