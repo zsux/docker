@@ -10,7 +10,8 @@ RUN chmod +x /tmp/*.sh && \
 COPY image/config /
 
 RUN chmod 600 /root/.ssh/authorized_keys \
-    && chmod 700 /root/.ssh
+    && chmod 700 /root/.ssh \
+    && chmod +x /etc/update-motd.d/50-phpdocker
 
 COPY image/scripts/bin /opt/scripts
 
@@ -22,7 +23,7 @@ RUN apt-get clean \
 
 ADD ./boot.py /bin/boot.py
 
-RUN chmod +x /bin/boot.py /etc/motd && chown -R www:www /home/www/
+RUN chmod +x /bin/boot.py && chown -R www:www /home/www/
 
 WORKDIR /code
 USER www

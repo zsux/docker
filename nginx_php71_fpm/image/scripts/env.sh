@@ -15,11 +15,17 @@ groupadd --gid 1001 www
 useradd --uid 1001 --gid www --shell /bin/bash --create-home www
 
 mkdir /code/
+rm -rf /etc/motd
 chown -R www:www /code/
-
 rm -f /usr/bin/python
 ln -s /usr/bin/python3 /usr/bin/python
 sed -i "s/python/python2/g" /usr/bin/supervisord
 sed -i "s/python/python2/g" /usr/bin/supervisorctl
+sed -i "s/alias php-xdebug/#alias php-xdebug/g" /etc/bash.bashrc
+sed -i "s/\/etc\/motd/#\/etc\/motd/g" /etc/bash.bashrc
+
+echo PasswordAuthentication no >> /etc/ssh/sshd_config
+echo PermitRootLogin no >> /etc/ssh/sshd_config
 
 echo "alias ll='ls -al'" >> /etc/bash.bashrc
+#echo "alias php-xdebug='/usr/bin/php -dzend_extension=xdebug.so -dxdebug.remote_enable=1'" >> /etc/bash.bashrc

@@ -51,3 +51,5 @@ printf "Maintainers: %s\n" "$MAINTAINER"
 printf "\n"
 printf "| ${bold}x-debug${normal} is disabled in CLI mode.\n"
 printf "\n"
+
+[ -f /etc/motd.tail ] && cat /etc/motd.tail || true
