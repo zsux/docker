@@ -1,7 +1,9 @@
 #!/usr/bin/env python
-#py2
 import argparse
 import os
+import sys
+import logging
+logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
 
 parser = argparse.ArgumentParser(description='DOCKER BOOT')
 parser.add_argument('--start', help='start', default="0")
@@ -28,11 +30,12 @@ au = args.au
 web = args.web
 
 
-print("booting...,{}".format(args))
-
+logging.info("booting...,%s",args)
 def os_system(cmd):
-    print( "> exec: {}".format(cmd))
+    logging.info( "> exec: %s",cmd)
     os.system(cmd)
+os_system("id")
+os_system("pwd")
 
 def do_init_user():
     id = 1201
