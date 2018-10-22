@@ -16,6 +16,7 @@ parser.add_argument('--au', help='auth', default="")
 parser.add_argument('--init', help='init', default="")
 parser.add_argument('--init_user', help='init_user', default="")
 parser.add_argument('--web', help='www root dir', default="")
+parser.add_argument('--run', help='run', default="")
 
 args = parser.parse_args()
 start = args.start
@@ -28,12 +29,14 @@ init_user = args.init_user
 vh = args.vh
 au = args.au
 web = args.web
-
+run = args.run
 
 logging.info("booting...,%s",args)
+
 def os_system(cmd):
     logging.info( "> exec: %s",cmd)
     os.system(cmd)
+
 os_system("id")
 os_system("pwd")
 
@@ -64,6 +67,9 @@ def do_init_user():
 if len(web) > 0:
     cmd = "sudo sed -i 's/root \/code/root {}/g' /etc/nginx/sites-enabled/default.conf".format(web.replace("/",'\/'));
     os_system(cmd)
+
+if len(run) > 0 and os.getenv(run,None) is not None:
+    os_system("echo ${0} | base64 --decode > {1} && cat {1} && echo && sh {1}".format(run,'/tmp/run.sh'))
 
 if len(pre_init) > 0:
     os_system(pre_init)
