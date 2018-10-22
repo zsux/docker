@@ -5,6 +5,7 @@ import sys
 import logging
 logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
 
+
 parser = argparse.ArgumentParser(description='DOCKER BOOT')
 parser.add_argument('--start', help='start', default="0")
 parser.add_argument('--boot', help='boot', default="")
@@ -34,6 +35,7 @@ run = args.run
 logging.info("booting...,%s",args)
 
 def os_system(cmd):
+    cmd = cmd.strip('"').strip(",")
     logging.info( "> exec: %s",cmd)
     os.system(cmd)
 
@@ -75,6 +77,7 @@ if len(pre_init) > 0:
     os_system(pre_init)
 
 if len(init) > 0:
+    print(init)
     os_system(init)
 
 if len(after_init) > 0:
