@@ -9,7 +9,6 @@ logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
 parser = argparse.ArgumentParser(description='DOCKER BOOT')
 parser.add_argument('--start', help='start', default="0")
 parser.add_argument('--boot', help='boot', default="")
-parser.add_argument('--auth', help='basic auth', default="")
 parser.add_argument('--pre_init', help='pre init', default="")
 parser.add_argument('--after_init', help='after init', default="")
 parser.add_argument('--vh', help='vhost', default="")
@@ -22,7 +21,6 @@ parser.add_argument('--run', help='run', default="")
 args = parser.parse_args()
 start = args.start
 boot = args.boot
-auth = args.auth
 pre_init = args.pre_init
 after_init = args.after_init
 init = args.init
@@ -92,11 +90,23 @@ for item in boot.split(","):
     os_system("sudo cp /etc/supervisor/conf_d/{0}.conf /etc/supervisor/conf.d/{0}.conf".format(item))
 
 if len(vh) > 0 and os.getenv(vh,None) is not None:
-    os_system("sudo chmod 777 /etc/nginx/nginx.conf && echo $NGINX_VHOSTS | base64 --decode > /etc/nginx/nginx.conf".format(vh))
+    os_system("sudo chmod 777 {1} && echo ${0} | base64 --decode > {1}".format(vh,"/etc/nginx/nginx.conf"))
 
 if len(au) > 0 and os.getenv(au,None) is not None:
-    os_system("sudo touch /etc/nginx/.htpasswd && sudo chmod 777 /etc/nginx/.htpasswd && echo ${} > /etc/nginx/.htpasswd".format(au))
+    logging.info("au")
+    os_system("sudo touch {1} && sudo chmod 777 {1} && echo ${0} > {1}".format(au,"/etc/nginx/.htpasswd"))
+
+
+for env_key in os.environ:
+    if env_key.startswith("AU_"):
+        key = env_key.replace("AU_", "")
+        t = key.split("_")
+        username = t[0]
+        password = os.getenv(env_key,None)
+        logging.info( ">> htpasswd: {0}@{1}".format(username,password))
+        if password is not None:
+            os_system("sudo touch {2} && sudo chmod 777 {2} && echo {0}:{1} >> {2}".format(username,password,"/etc/nginx/.htpasswd"))
 
 if start == '1':
-    print("starting")
+    logging.info("starting")
     os_system("sudo /usr/bin/supervisord -n -c /etc/supervisor/supervisord.conf")
