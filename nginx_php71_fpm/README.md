@@ -1,6 +1,6 @@
 
 - https://hub.docker.com/r/dockerphp/nginx/
-- https://github.com/OsLab/docker-php-nginx
+    - https://github.com/OsLab/docker-php-nginx
 
 
 # install 
