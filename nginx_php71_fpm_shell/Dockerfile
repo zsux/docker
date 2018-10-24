@@ -1,4 +1,4 @@
-FROM registry.cn-shanghai.aliyuncs.com/pt/repo:np71-2.3
+FROM registry.cn-shanghai.aliyuncs.com/pt/repo:np71-2.4
 
 MAINTAINER Barry <dhole.me@gmail.com>
 USER root

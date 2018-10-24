@@ -94,7 +94,7 @@ if len(vh) > 0 and os.getenv(vh,None) is not None:
     os_system("sudo chmod 777 {1} && echo ${0} | base64 --decode > {1}".format(vh,"/etc/nginx/nginx.conf"))
 
 if len(config) > 0 and os.getenv("CONFIG_SERVER",None) is not None and os.getenv("CONFIG_USER",None) is not None and os.getenv("CONFIG_PWD",None) is not None:
-    os_system("curl -k -u {0}:{1} {2} -o {3}".format(
+    os_system("sudo curl -k -u {0}:{1} {2} -o {3}".format(
         os.getenv("CONFIG_USER",None),
         os.getenv("CONFIG_PWD",None),
         os.getenv("CONFIG_SERVER",None),
