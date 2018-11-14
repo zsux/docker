@@ -28,7 +28,8 @@
 # Install Docker on Ubuntu 14.04
  
 - https://docs.docker.com/engine/installation/linux/docker-ce/ubuntu/#install-using-the-repository
-- 
+
+
     sudo apt-get update
     sudo apt-get install \
         apt-transport-https \
