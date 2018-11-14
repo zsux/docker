@@ -29,6 +29,7 @@
  
 - https://docs.docker.com/engine/installation/linux/docker-ce/ubuntu/#install-using-the-repository
 
+install
 
     sudo apt-get update
     sudo apt-get install \
